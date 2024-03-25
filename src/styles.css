@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+/* var colors */
+:root {
+  --primary-color: hsl(0deg 0% 16.86%);
+  --secondary-color: hsl(0deg 0% 93.33%);
+  --tertiary-color: hsl(0, 1%, 72%);
+  --gray-color: #6c757d;
+}
+
+html,
+body {
+  height: 100%;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  box-sizing: border-box;
+  height: 100vh;
+  display: block;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

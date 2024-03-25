@@ -1,0 +1,63 @@
+<app-card
+  title="Add TODO"
+  buttonText="Back &lt;"
+  (onButtonClick)="handleBackButton()"
+>
+  <form [formGroup]="todo" (submit)="handleSubmit()">
+    <div>
+      <div>
+        <mat-form-field>
+          <mat-label>Title</mat-label>
+          <input
+            matInput
+            #input
+            required
+            formControlName="title"
+            placeholder="Fill title"
+          />
+          {{ callingFunction() }}
+          <mat-error>
+            @if (todo.get('title')?.errors?.['required']) { Title is required }
+            @if (todo.get('title')?.errors?.['maxLength']) { Max length cannot
+            be more than 100 characters }
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Choose a expiration date</mat-label>
+          <input
+            matInput
+            [min]="minDate"
+            [matDatepicker]="picker"
+            formControlName="expiration_date"
+            required
+          />
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error>
+            @if (todo.get('expiration_date')?.errors?.['required']) { Expiration
+            date is required }
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div>
+        <input
+          placeholder="12hr format (default settings)"
+          aria-label="12hr format"
+          [ngxTimepicker]="default"
+          readonly
+          formControlName="expiration_time"
+        />
+        <ngx-material-timepicker #default></ngx-material-timepicker>
+      </div>
+    </div>
+    <div>
+      <button mat-raised-button color="primary" type="submit">Add</button>
+    </div>
+  </form>
+</app-card>

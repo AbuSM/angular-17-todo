@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.15);
+  transition: 0.3s;
+  width: 100%;
+  border: 1px solid var(--tertiary-color);
+}
+
+.heading {
+  font-weight: semibold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 35px;
+  background-color: var(--secondary-color);
+  color: var(--primary-color);
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--tertiary-color);
+}
+.heading,
+.content {
+  padding: 5px 25px;
+}
+.content {
+  display: block;
+}

@@ -1,0 +1,15 @@
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form > div {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+form button[type="submit"] {
+  margin: 15px;
+}

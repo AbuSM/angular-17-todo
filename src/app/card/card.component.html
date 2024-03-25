@@ -1,0 +1,13 @@
+<div class="heading">
+  <div>
+    {{ title }}
+  </div>
+  @if (!!buttonText) {
+  <div>
+    <button (click)="onButtonClicked()">{{ buttonText }}</button>
+  </div>
+  }
+</div>
+<div class="content">
+  <ng-content></ng-content>
+</div>

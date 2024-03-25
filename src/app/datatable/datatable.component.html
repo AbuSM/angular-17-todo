@@ -1,0 +1,26 @@
+<app-card [title]="title">
+  <table cdk-table [dataSource]="dataSource">
+    <ng-container cdkColumnDef="id">
+      <th cdk-header-cell *cdkHeaderCellDef></th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.id }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="name">
+      <th cdk-header-cell *cdkHeaderCellDef></th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.name }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="created_at">
+      <th cdk-header-cell *cdkHeaderCellDef>Created At</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.created_at }}</td>
+    </ng-container>
+
+    <ng-container cdkColumnDef="time_left">
+      <th cdk-header-cell *cdkHeaderCellDef>Time Left</th>
+      <td cdk-cell *cdkCellDef="let element">{{ element.time_left }}</td>
+    </ng-container>
+
+    <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+    <tr cdk-row *cdkRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</app-card>
