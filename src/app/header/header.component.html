@@ -1,6 +1,24 @@
 <header class="header">
   <div class="content">
-    <mat-toolbar color="primary">
+    <div class="mobile-menu">
+      <ul class="nav">
+        <li class="nav-item">
+          <a href="/add">Add</a>
+        </li>
+        <li class="nav-item">
+          <a href="/list">List</a>
+        </li>
+        <li class="nav-item">
+          <a href="/favorite">Favorite TODO list</a>
+        </li>
+      </ul>
+    </div>
+
+    <button mat-icon-button class="hamburger" aria-label="Hamburger">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-toolbar color="primary" class="classic-menu">
       <mat-toolbar-row>
         <div>
           <ul class="nav">

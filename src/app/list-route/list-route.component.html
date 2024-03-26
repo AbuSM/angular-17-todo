@@ -1,7 +1,14 @@
 <div class="datatables">
   <app-datatable
     title="Today TODOs"
+    *ngIf="todayTodos$ | async"
     [data]="todayTodos$ | async"
+    [isToday]="true"
+    (onFavorite)="handleFavorite($event)"
+    (onRemove)="handleRemove($event)"
   ></app-datatable>
-  <app-datatable title="My TODO list"></app-datatable>
+  <app-datatable
+    title="My TODO list"
+    [data]="upcomingTodos$ | async"
+  ></app-datatable>
 </div>

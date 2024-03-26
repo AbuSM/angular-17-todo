@@ -13,3 +13,17 @@ form > div {
 form button[type="submit"] {
   margin: 15px;
 }
+
+@media screen and (max-width: 768px) {
+  form {
+    gap: 10px;
+  }
+
+  form > div {
+    flex-direction: column;
+  }
+  form > div > div,
+  mat-form-field {
+    width: 100%;
+  }
+}

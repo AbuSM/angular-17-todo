@@ -12,25 +12,39 @@ import { Subscription, startWith, Observable } from 'rxjs';
   templateUrl: './list-route.component.html',
   styleUrl: './list-route.component.css',
 })
-export class ListRouteComponent implements OnInit, OnDestroy {
+export class ListRouteComponent implements OnDestroy {
   title = 'List Route';
+  todayTodos: IData[] = [];
   todayTodos$: Observable<IData[] | []> = new Observable<IData[] | []>().pipe(
     startWith([])
   );
   upcomingTodos: IData[] = [];
+  upcomingTodos$: Observable<IData[] | []> = new Observable<
+    IData[] | []
+  >().pipe(startWith([]));
   subscriptions: Subscription = new Subscription();
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) {
+    this.update();
+  }
 
-  ngOnInit(): void {
-    console.log('ListRouteComponent initialized');
+  handleFavorite(id: string) {
+    this.apiService.toggleFavoriteTodo(id).subscribe(() => {
+      this.update();
+    });
+
+    this.update();
+  }
+
+  handleRemove(id: string) {
+    this.apiService.deleteTodoById(id).subscribe(() => {
+      this.update();
+    });
+  }
+
+  update() {
     this.todayTodos$ = this.apiService.getTodayTodos();
-    this.subscriptions.add(
-      this.apiService.getUpcomingTodos().subscribe((data) => {
-        console.log('data from getUpcomingTodos: ', data);
-        this.upcomingTodos = data;
-      })
-    );
+    this.upcomingTodos$ = this.apiService.getUpcomingTodos();
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import {
+  map,
+  concatMap,
+  Observable,
+  tap,
+  catchError,
+  throwError,
+  of,
+} from 'rxjs';
 import { StorageService } from './storage.service';
 import { IData } from '../../types';
 
@@ -10,7 +18,6 @@ export class ApiService {
   constructor(private storageService: StorageService) {}
 
   getTodayTodos(): Observable<IData[] | []> {
-    console.log(11111);
     return this.storageService.getItem().pipe(
       map((data: IData[] = []) => {
         if (!data.length) return data;
@@ -20,7 +27,10 @@ export class ApiService {
           return (
             todoDate.getDate() === today.getDate() &&
             todoDate.getMonth() === today.getMonth() &&
-            todoDate.getFullYear() === today.getFullYear()
+            todoDate.getFullYear() === today.getFullYear() &&
+            (todoDate.getHours() > today.getHours() ||
+              (todoDate.getHours() === today.getHours() &&
+                todoDate.getMinutes() > today.getMinutes()))
           );
         });
       })
@@ -34,7 +44,11 @@ export class ApiService {
         return data.filter((todo) => {
           const todoDate = new Date(todo.expiration_date);
           const today = new Date();
-          return todoDate > today;
+          return (
+            todoDate.getDate() > today.getDate() &&
+            todoDate.getMonth() > today.getMonth() &&
+            todoDate.getFullYear() > today.getFullYear()
+          );
         });
       })
     );
@@ -43,7 +57,7 @@ export class ApiService {
   getFavoriteTodos() {
     return this.storageService.getItem().pipe(
       map((data: IData[]) => {
-        return data.filter((todo) => todo.isFavorite);
+        return data?.filter((todo) => todo.isFavorite);
       })
     );
   }
@@ -53,11 +67,15 @@ export class ApiService {
       map((data: IData[]) => {
         const updatedData = data.map((todo) => {
           if (todo.id === id) {
-            todo.isFavorite = !todo.isFavorite;
+            return {
+              ...todo,
+              isFavorite: !todo.isFavorite,
+            };
           }
           return todo;
         });
-        this.storageService.setItem(updatedData);
+
+        this.storageService.setItem(updatedData).subscribe();
         return updatedData;
       })
     );
@@ -75,7 +93,8 @@ export class ApiService {
     return this.storageService.getItem().pipe(
       map((data: IData[]) => {
         const updatedData = data.filter((todo) => todo.id !== id);
-        this.storageService.setItem(updatedData);
+        console.log('updatedData: ', updatedData);
+        this.storageService.setItem([...updatedData]).subscribe();
         return updatedData;
       })
     );

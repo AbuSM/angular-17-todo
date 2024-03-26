@@ -69,19 +69,34 @@ export class AddRouteComponent implements OnInit {
       this.todo.markAllAsTouched();
       return;
     }
-    const expiration_date = this.todo.get('expiration_date')!.value;
+    const expiration_date = this.todo.get('expiration_date')!.value as Date;
     const expiration_time = this.todo.get('expiration_time')?.value;
-    let expiration_date_time = expiration_date;
 
-    if (!expiration_time) {
-      expiration_date_time = new Date(expiration_date + ' ' + expiration_time);
+    let expiration_date_time = new Date(expiration_date);
+
+    if (expiration_time) {
+      const [time, period] = expiration_time.split(' ');
+      const [hours, minutes] = time.split(':').map(Number);
+      if (period === 'PM' && hours !== 12) {
+        expiration_date_time.setHours(hours + 12, minutes);
+      } else if (period === 'AM' && hours === 12) {
+        expiration_date_time.setHours(0, minutes);
+      } else {
+        expiration_date_time.setHours(hours, minutes);
+      }
+    }
+    // check if expiration date is in the past
+    if (expiration_date_time < new Date()) {
+      console.error('Expiration date cannot be in the past.');
+      return;
     }
 
     const data = {
-      ...this.todo.value,
+      title: this.todo.get('title')!.value,
       id: uuid.v4(),
       expiration_date: expiration_date_time,
       created_at: new Date(),
+      isFavorite: false,
     } as IData;
     this.apiService.addNewTodo(data);
     this.router.navigate(['/list']);

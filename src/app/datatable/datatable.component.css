@@ -2,3 +2,64 @@
   height: 100%;
   display: block;
 }
+
+table {
+  box-shadow: unset;
+}
+
+.th-title {
+  width: 60%;
+}
+
+.expiration_date {
+  width: 100px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.actions button {
+  /* padding: 5px 10px; */
+  background-color: unset;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.action button.mat-icon-button:hover {
+  background-color: red;
+  color: var(--primary-color);
+}
+
+.actions button .close-button {
+  color: red;
+}
+
+@media screen and (max-width: 768px) {
+  tbody th,
+  thead {
+    display: none;
+  }
+  tbody tr {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+  }
+  .actions {
+    flex-direction: column;
+  }
+  .actions button {
+    width: 100%;
+  }
+  .actions button.mat-icon-button {
+    width: 100%;
+  }
+  .actions button.mat-icon-button .close-button {
+    width: 100%;
+  }
+  .actions button.mat-icon-button .close-button:hover {
+    background-color: red;
+    color: var(--primary-color);
+  }
+}

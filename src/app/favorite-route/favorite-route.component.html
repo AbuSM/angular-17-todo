@@ -1,1 +1,4 @@
-<app-datatable title="Favorite TODOs"></app-datatable>
+<app-datatable
+  title="Favorite TODOs"
+  [data]="favoriteTodos$ | async"
+></app-datatable>
