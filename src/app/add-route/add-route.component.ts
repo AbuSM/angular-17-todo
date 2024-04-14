@@ -85,8 +85,9 @@ export class AddRouteComponent implements OnInit {
         expiration_date_time.setHours(hours, minutes);
       }
     }
-    // check if expiration date is in the past
     if (expiration_date_time < new Date()) {
+      const error = { errors: 'Expiration date cannot be in the past.' };
+      this.todo.controls.expiration_time.setErrors(error);
       console.error('Expiration date cannot be in the past.');
       return;
     }

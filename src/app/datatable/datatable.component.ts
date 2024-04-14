@@ -1,12 +1,12 @@
 import {
   Component,
   Input,
-  OnInit,
   Output,
   EventEmitter,
   OnChanges,
   SimpleChanges,
   ChangeDetectorRef,
+  NgZone,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
 import { CardComponent } from '../card/card.component';
 import { IData } from '../../types';
-import { interval, timer, takeUntil } from 'rxjs';
+
 @Component({
   selector: 'app-datatable',
   standalone: true,
@@ -32,7 +32,7 @@ import { interval, timer, takeUntil } from 'rxjs';
   templateUrl: './datatable.component.html',
   styleUrl: './datatable.component.css',
 })
-export class DatatableComponent implements OnInit, OnChanges {
+export class DatatableComponent implements OnChanges {
   @Input() title: string = 'Data Table';
   @Input() data: IData[] | [] | null = [];
   @Input() isToday: boolean = false;
@@ -51,14 +51,12 @@ export class DatatableComponent implements OnInit, OnChanges {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {}
-
-  ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['data']) {
-      console.log('changed: ', this.data);
       this.dataSource = new MatTableDataSource<IData>(this.data || []);
     }
   }
@@ -79,16 +77,8 @@ export class DatatableComponent implements OnInit, OnChanges {
   }
 
   onFavoriteClick(id: string) {
-    console.log('clicked');
     if (!this.data?.length) return;
-    // const todo = this.data.find((element: IData) => element.id === value);
-    // if (todo) {
-    //   todo.isFavorite = !todo.isFavorite;
-    //   this.dataSource = new MatTableDataSource<IData>([...this.data]);
-    // }
     this.onFavorite.emit(id);
-    // this.update();
-    console.log('we are here');
   }
 
   onRemoveClick(id: string) {
@@ -117,11 +107,11 @@ export class DatatableComponent implements OnInit, OnChanges {
     let seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
     if (startInterval && timeDifference > 0) {
-      interval(1000)
-        .pipe(takeUntil(timer(timeDifference + 1000)))
-        .subscribe(() => {
+      this.ngZone.runOutsideAngular(() => {
+        setInterval(() => {
           this.update();
-        });
+        }, 1000);
+      });
     }
 
     let str = '';

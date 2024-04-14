@@ -9,6 +9,9 @@
   ></app-datatable>
   <app-datatable
     title="My TODO list"
+    *ngIf="upcomingTodos$ | async"
     [data]="upcomingTodos$ | async"
+    (onFavorite)="handleFavorite($event)"
+    (onRemove)="handleRemove($event)"
   ></app-datatable>
 </div>

@@ -14,6 +14,15 @@ form button[type="submit"] {
   margin: 15px;
 }
 
+.time {
+  max-width: 300px;
+  width: 100%;
+}
+
+.time > mat-error {
+  font-size: 12px;
+}
+
 @media screen and (max-width: 768px) {
   form {
     gap: 10px;

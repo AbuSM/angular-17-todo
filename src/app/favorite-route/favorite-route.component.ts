@@ -20,7 +20,6 @@ export class FavoriteRouteComponent implements OnInit {
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    console.log('FavoriteRouteComponent initialized');
     this.favoriteTodos$ = this.apiService.getFavoriteTodos();
   }
 }

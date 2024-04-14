@@ -41,18 +41,30 @@
           <mat-datepicker #picker></mat-datepicker>
           <mat-error>
             @if (todo.get('expiration_date')?.errors?.['required']) { Expiration
-            date is required }
+            date is required } @else if (todo.get('expiration_date')?.errors) {
+            {{ todo.get("expiration_date")?.errors?.['errors'] }}
+            }
           </mat-error>
         </mat-form-field>
       </div>
-      <div>
-        <input
-          placeholder="12hr format (default settings)"
-          aria-label="12hr format"
-          [ngxTimepicker]="default"
-          readonly
-          formControlName="expiration_time"
-        />
+      <div class="time">
+        <mat-form-field>
+          <mat-label>Choose a time</mat-label>
+          <input
+            matInput
+            placeholder="12hr format (default settings)"
+            aria-label="12hr format"
+            [ngxTimepicker]="default"
+            readonly
+            formControlName="expiration_time"
+          />
+          <mat-error>
+            @if (todo.get('expiration_time')?.errors?.['required']) { Expiration
+            time is required } @else if (todo.get('expiration_time')?.errors) {
+            {{todo.get("expiration_time")?.errors?.['errors']}}
+            }
+          </mat-error>
+        </mat-form-field>
         <ngx-material-timepicker #default></ngx-material-timepicker>
       </div>
     </div>

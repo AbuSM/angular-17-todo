@@ -1,13 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  map,
-  concatMap,
-  Observable,
-  tap,
-  catchError,
-  throwError,
-  of,
-} from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { StorageService } from './storage.service';
 import { IData } from '../../types';
 
@@ -43,12 +35,11 @@ export class ApiService {
         if (!data?.length) return data;
         return data.filter((todo) => {
           const todoDate = new Date(todo.expiration_date);
-          const today = new Date();
-          return (
-            todoDate.getDate() > today.getDate() &&
-            todoDate.getMonth() > today.getMonth() &&
-            todoDate.getFullYear() > today.getFullYear()
-          );
+
+          const nextDay = new Date();
+          nextDay.setDate(nextDay.getDate() + 1);
+          nextDay.setHours(0, 0, 0, 0);
+          return todoDate >= nextDay;
         });
       })
     );
@@ -93,7 +84,6 @@ export class ApiService {
     return this.storageService.getItem().pipe(
       map((data: IData[]) => {
         const updatedData = data.filter((todo) => todo.id !== id);
-        console.log('updatedData: ', updatedData);
         this.storageService.setItem([...updatedData]).subscribe();
         return updatedData;
       })

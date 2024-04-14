@@ -11,7 +11,6 @@ export class StorageService {
   constructor(private asyncLocalStorage: StorageMap) {}
 
   setItem(value: any, key: string = STORAGE_KEY) {
-    console.log('storage value: ', value);
     return this.asyncLocalStorage.set(key, value).pipe(delay(100));
   }
 
